@@ -22,7 +22,10 @@ export default function FormHeader() {
     <div className={classes.grow}>
       <AppBar position="static" className={classes.appBar}>
         <Toolbar>
-          <ArrowBackIcon onClick={() => history.push("/dashboard")} />
+          <ArrowBackIcon
+            fontSize="large"
+            onClick={() => history.push("/dashboard")}
+          />
         </Toolbar>
       </AppBar>
     </div>

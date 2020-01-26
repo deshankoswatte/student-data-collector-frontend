@@ -19,6 +19,7 @@ const useStyles = makeStyles(theme => ({
   title: {
     display: "none",
     fontWeight: "bold",
+    fontSize: 24,
     marginLeft: 1 + "em",
     [theme.breakpoints.up("sm")]: {
       display: "block"
