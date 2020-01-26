@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -8,23 +8,25 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import DefaultHeader from "../../header/deafult-header/DefaultHeader";
 import { useHistory } from "react-router-dom";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import DefaultHeader from "../../header/deafult-header/DefaultHeader";
 
 const useStyles = makeStyles(theme => ({
   root: {
     marginTop: theme.spacing(5),
     width: "75%"
   },
-  button: {},
+  insertion_button: {
+    float: "right",
+    marginBottom: "1%"
+  },
   table: {
     minWidth: 650
   },
   header: {
-    fontWeight: "bold",
     fontSize: 18
   },
   row: {
@@ -33,19 +35,27 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function createData(id, fullName, age, address) {
-  return { id, fullName, age, address };
-}
-
-const rows = [
-  createData(1, "Dehami Deshan Koswatte", 20, "Homagama"),
-  createData(2, "Yashod Gayashan Perera", 24, "Negombo"),
-  createData(3, "Sanjula Madurapperuma", 20, "Rajagiriya")
-];
-
 export default function AcccessibleTable() {
   const classes = useStyles();
   const history = useHistory();
+
+  const [hasError, setErrors] = useState(false);
+  const [students, setStudents] = useState([]);
+
+  async function fetchData() {
+    const response = await fetch(
+      "http://localhost:9090/student/getAllStudents"
+    );
+    response
+      .json()
+      .then(response => setStudents(response))
+      .catch(error => setErrors(error));
+    console.log(response);
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <Fragment>
@@ -54,7 +64,7 @@ export default function AcccessibleTable() {
         <div className={classes.root}>
           <AddCircleOutlineIcon
             fontSize="large"
-            style={{ float: "right", marginBottom: "1%" }}
+            className={classes.insertion_button}
             onClick={() => {
               history.push("/registration");
             }}
@@ -84,7 +94,7 @@ export default function AcccessibleTable() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map(row => (
+                {students.map(row => (
                   <TableRow key={row.id}>
                     <TableCell className={classes.row} align="left">
                       {row.id}

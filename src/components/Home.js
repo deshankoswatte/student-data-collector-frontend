@@ -14,8 +14,6 @@ const Home = () => {
       <Fragment>
         <div className="body">
           <Switch>
-            {/* <Route exact path="/dashboard" component={User} />
-              <Redirect exact from="" to="/dashboard" /> */}
             <Route exact path="/dashboard" component={CustomizedTables} />
             <Route exact path="/registration" component={StudentForm} />
             <Redirect exact from="" to="/dashboard" />
