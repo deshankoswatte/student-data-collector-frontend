@@ -58,7 +58,7 @@ function Copyright() {
   );
 }
 
-function onClickProcess(studentId, fullName, age, address) {
+function onStudentRegistration(studentId, fullName, age, address, history) {
   axios
     .post("http://localhost:9090/student/insertStudent", {
       student: {
@@ -70,9 +70,16 @@ function onClickProcess(studentId, fullName, age, address) {
     })
     .then(response => {
       console.log(response);
+      if (response.status === 200) {
+        alert("Student was inserted successfully!!!");
+        history.push("/dashboard");
+      } else {
+        alert("Student was not inserted successfully!!!");
+      }
     })
     .catch(error => {
       console.log(error);
+      alert("Student was not inserted successfully!!!");
     });
 }
 
@@ -153,7 +160,13 @@ function StudentForm() {
               className={classes.button}
               fullWidth
               onClick={() => {
-                onClickProcess(studentId, fullName, age, address);
+                onStudentRegistration(
+                  studentId,
+                  fullName,
+                  age,
+                  address,
+                  history
+                );
               }}
             >
               Add Student
